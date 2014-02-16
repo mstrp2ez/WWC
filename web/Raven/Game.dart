@@ -4,12 +4,16 @@ import "dart:html";
 import "dart:async";
 import "BaseTypes.dart";
 import "Renderer.dart";
-import "Tilemap/Tilemap.dart";
+import "UI/UI.dart";
+import "UI/TextWidget.dart";
 
 class Game{
   CanvasElement m_xCanvas;
   Renderer m_xRenderer;
-  Tilemap m_xTilemap;
+  UI m_xUI;
+  Timer m_xTimerHandle;
+  int m_iTimerValue;
+  TextWidget m_xTimerRef;
   
   Game(this.m_xCanvas);
   
@@ -20,11 +24,36 @@ class Game{
     xOffset.m_fOffsetX=0.0;
     xOffset.m_fOffsetY=0.0;
     m_xRenderer=new Renderer(xContext, xOffset);
+    m_iTimerValue=0;
     
-    Tilemap xTilemap = new Tilemap(m_xRenderer, 'assets/tilemapatlas.png',40,40);
-    xTilemap.GenerateFromImageAtlas('assets/map0.png');
+    m_xUI=new UI(m_xRenderer, 0);
+    m_xUI.Load("assets/mainmenu.json", 0, (e){
+      document.on["UIClick"].listen(onUIClick);  
+    });
+    
     
     Run(0);
+  }
+  
+  void onUIClick(CustomEvent p_xEvent){
+    if(!(p_xEvent.detail is Map)){return;}
+    String sType=p_xEvent.detail["t"];
+    
+    if(sType=="onstartbtnclicked"){
+      m_xUI.Load("assets/gameui.json",0,(e){
+        m_xTimerRef=m_xUI.GetWidgetByName("timertext");
+        m_xTimerHandle=new Timer.periodic(new Duration(seconds:1), (e){
+          m_iTimerValue++;
+          m_xTimerRef.m_sText=m_iTimerValue.toString();
+        });
+      });
+      
+      return;
+    }
+    if(sType=="onaboutbtnclicked"){
+      
+      return;
+    }
   }
   
   void Run(num p_nDelta){

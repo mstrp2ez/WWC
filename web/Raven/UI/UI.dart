@@ -20,13 +20,24 @@ class UI{
     m_iID=p_iID;
   }
   
-  void Load(String p_sSrc,[int p_iID=-1]){
+  void Load(String p_sSrc,[int p_iID=-1, Function p_xCallback=null]){
+    Unload();
+    
     if(p_iID!=-1){
       m_iID=p_iID;
     }
-    HttpRequest.getString(p_sSrc).then(onLayoutLoaded);
+    if(p_xCallback!=null){
+      HttpRequest.getString(p_sSrc).then(onLayoutLoaded).then(p_xCallback);
+    }else{
+      HttpRequest.getString(p_sSrc).then(onLayoutLoaded);
+    }
   }
-  
+  void Unload(){
+    m_xChildren.forEach((e){
+      m_xRenderer.RemoveItem(e);
+    });
+    m_xChildren.clear();
+  }
   void onLayoutLoaded(String p_sData){
     Map xLayout=JSON.decode(p_sData);
     xLayout.forEach((k,v){
@@ -39,7 +50,7 @@ class UI{
         ParseChildren(v["childwidgets"],xNW);
       }
     });
-    document.dispatchEvent(new CustomEvent("UILoaded", canBubble: true, cancelable: true, detail: {"id":m_iID}));
+  //  document.dispatchEvent(new CustomEvent("UILoaded", canBubble: true, cancelable: true, detail: {"id":m_iID}));
   }
   void ParseChildren(Map p_xChildren,BaseWidget p_xParent){
     p_xChildren.forEach((k,v){

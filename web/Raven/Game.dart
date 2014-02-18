@@ -6,6 +6,7 @@ import "BaseTypes.dart";
 import "Renderer.dart";
 import "UI/UI.dart";
 import "UI/TextWidget.dart";
+import "Gfx/Gfx.dart";
 
 class Game{
   CanvasElement m_xCanvas;
@@ -14,6 +15,7 @@ class Game{
   Timer m_xTimerHandle;
   int m_iTimerValue;
   TextWidget m_xTimerRef;
+  Animation m_xAnimation;
   
   Game(this.m_xCanvas);
   
@@ -31,6 +33,12 @@ class Game{
       document.on["UIClick"].listen(onUIClick);  
     });
     
+    m_xAnimation=new Animation();
+    m_xAnimation.Load("assets/playeranim.json").then((e){
+      m_xRenderer.AddItem(m_xAnimation);
+      m_xAnimation.SetAnimation(1);
+    });
+
     
     Run(0);
   }

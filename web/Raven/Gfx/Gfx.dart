@@ -102,13 +102,13 @@ class Animation extends BaseEntity implements Renderable, Updatable, Scalable{
     Load();
   }
   Animation.createFromJSONMap(Map p_xMap) : super.createFromJSONMap(p_xMap){}
-  void Load([String p_sSrc=""]){
+  Future Load([String p_sSrc=""]){
     String sSrc=m_sSource;
     if(p_sSrc!=""){
       m_sSource=sSrc=p_sSrc;
     }
     m_fScale=1.0;
-    HttpRequest.getString(sSrc).then(onAnimationData);
+    return HttpRequest.getString(sSrc).then(onAnimationData);
   }
   void onAnimationData(String p_Data){
     var xData=JSON.decode(p_Data);
@@ -121,7 +121,7 @@ class Animation extends BaseEntity implements Renderable, Updatable, Scalable{
     if(m_xAnimations.length>0){
       m_xCurrentFrame=m_xAnimations[0];
     }
-    document.dispatchEvent(new CustomEvent("AnimationLoaded", canBubble: true, cancelable: true, detail: {"src":m_sSource}));
+   // document.dispatchEvent(new CustomEvent("AnimationLoaded", canBubble: true, cancelable: true, detail: {"src":m_sSource}));
     m_bLoaded=true;
   }
   void onScale(double p_fDelta){

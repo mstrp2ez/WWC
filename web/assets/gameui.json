@@ -66,5 +66,15 @@
         }
       }
     }
+  },
+  "happymeter":{
+    "type":"BaseWidget",
+    "p":{
+      "x":2,
+      "y":320,
+      "w":75,
+      "h":150,
+      "imgsrc":"assets/happymeter.png"
+    }
   }
 }

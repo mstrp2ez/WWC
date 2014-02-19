@@ -6,12 +6,9 @@ import "BaseTypes.dart";
 import "Renderer.dart";
 import "UI/UI.dart";
 import "UI/TextWidget.dart";
-<<<<<<< HEAD
 import "UI/BaseWidget.dart";
-=======
 import "Gfx/Gfx.dart";
 import "Scene/scene.dart";
->>>>>>> b6804442965840e6d288ad92052236ae24d4d572
 
 class Game{
   CanvasElement m_xCanvas;

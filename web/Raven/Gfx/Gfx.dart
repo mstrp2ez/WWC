@@ -19,6 +19,18 @@ class Gfx implements Renderable{
   WorldOffset m_xOffset;
   bool m_bIgnoreVisCheck;
   
+  Gfx(){
+    m_vPos=new Vec2(0,0);
+    m_iW=0;
+    m_iH=0;
+    m_bVisible=true;
+    m_iRenderLayer=0;
+    m_bLoaded=false;
+    m_xImage=new ImageElement();
+    m_xImage.onLoad.listen(onImageLoaded);
+    m_bScaled=false;
+  }
+  
   Gfx.create(String p_sSrc, Vec2 p_vPos, int p_iW, int p_iH, int p_iRenderLayer, [bool p_bScaled= false]){
     m_vPos=p_vPos;
     m_iW=p_iW;
@@ -102,13 +114,13 @@ class Animation extends BaseEntity implements Renderable, Updatable, Scalable{
     Load();
   }
   Animation.createFromJSONMap(Map p_xMap) : super.createFromJSONMap(p_xMap){}
-  void Load([String p_sSrc=""]){
+  Future Load([String p_sSrc=""]){
     String sSrc=m_sSource;
     if(p_sSrc!=""){
       m_sSource=sSrc=p_sSrc;
     }
     m_fScale=1.0;
-    HttpRequest.getString(sSrc).then(onAnimationData);
+    return HttpRequest.getString(sSrc).then(onAnimationData);
   }
   void onAnimationData(String p_Data){
     var xData=JSON.decode(p_Data);
@@ -121,7 +133,7 @@ class Animation extends BaseEntity implements Renderable, Updatable, Scalable{
     if(m_xAnimations.length>0){
       m_xCurrentFrame=m_xAnimations[0];
     }
-    document.dispatchEvent(new CustomEvent("AnimationLoaded", canBubble: true, cancelable: true, detail: {"src":m_sSource}));
+   // document.dispatchEvent(new CustomEvent("AnimationLoaded", canBubble: true, cancelable: true, detail: {"src":m_sSource}));
     m_bLoaded=true;
   }
   void onScale(double p_fDelta){

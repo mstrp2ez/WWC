@@ -88,7 +88,6 @@ class BaseWidget implements Renderable, Clickable{
     m_iRenderLayer=(xP.containsKey("l")?xP["l"]:m_iRenderLayer);
     m_bVisible=(xP.containsKey("visible")?xP["visible"]:true);
     m_sBgColor=(xP.containsKey("bgcolor")?xP["bgcolor"]:"");
-    m_iRenderLayer=(xP.containsKey("l")?xP["l"]:14);
     m_bDraggable=(xP.containsKey("draggable")?xP["draggable"]:m_bDraggable);
     if(xP.containsKey("imgsrc")){
       m_xBackground=new Gfx.create(xP["imgsrc"], new Vec2(0.0,0.0), m_iW, m_iH, 1, false);

@@ -19,6 +19,18 @@ class Gfx implements Renderable{
   WorldOffset m_xOffset;
   bool m_bIgnoreVisCheck;
   
+  Gfx(){
+    m_vPos=new Vec2(0,0);
+    m_iW=0;
+    m_iH=0;
+    m_bVisible=true;
+    m_iRenderLayer=0;
+    m_bLoaded=false;
+    m_xImage=new ImageElement();
+    m_xImage.onLoad.listen(onImageLoaded);
+    m_bScaled=false;
+  }
+  
   Gfx.create(String p_sSrc, Vec2 p_vPos, int p_iW, int p_iH, int p_iRenderLayer, [bool p_bScaled= false]){
     m_vPos=p_vPos;
     m_iW=p_iW;

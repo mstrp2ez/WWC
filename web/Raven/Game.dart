@@ -7,6 +7,7 @@ import "Renderer.dart";
 import "UI/UI.dart";
 import "UI/TextWidget.dart";
 import "Gfx/Gfx.dart";
+import "Scene/scene.dart";
 
 class Game{
   CanvasElement m_xCanvas;
@@ -33,12 +34,8 @@ class Game{
       document.on["UIClick"].listen(onUIClick);  
     });
     
-    m_xAnimation=new Animation();
-    m_xAnimation.Load("assets/playeranim.json").then((e){
-      m_xRenderer.AddItem(m_xAnimation);
-      m_xAnimation.SetAnimation(1);
-    });
-
+    Scene xScene=new Scene(m_xRenderer);
+    xScene.LoadFromData("assets/gamescene.json");
     
     Run(0);
   }

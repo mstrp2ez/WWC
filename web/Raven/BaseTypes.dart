@@ -19,7 +19,10 @@ class WorldOffset{
   WorldOffset._internal();
   
 }
-
+abstract class DataAsset{
+  
+  void LoadFromData(Map<String,dynamic> p_xProperties);
+}
 abstract class Renderable{
   Vec2 m_vPos;
   int m_iW;
@@ -60,7 +63,7 @@ abstract class Scalable{
 }
 
 
-abstract class BaseEntity implements Renderable, Updatable{
+abstract class BaseEntity implements Renderable, Updatable, DataAsset{
   Vec2 m_vPos;
   int m_iW;
   int m_iH;
@@ -133,14 +136,19 @@ abstract class BaseEntity implements Renderable, Updatable{
     });
   }
   double CalculateWorldPosX(){
-    
   }
   void Render(CanvasRenderingContext2D p_xCtx){
-    
     m_xChildren.forEach((e){
       e.Render(p_xCtx);
     });
   }
-  
+  void Unload(){
+    m_xChildren.forEach((e){
+      e.Unload();
+    });
+  }
+  void LoadFromData(Map<String,dynamic> p_xProperties){
+    
+  }
   void Serialize();
 }

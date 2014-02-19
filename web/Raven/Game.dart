@@ -6,6 +6,7 @@ import "BaseTypes.dart";
 import "Renderer.dart";
 import "UI/UI.dart";
 import "UI/TextWidget.dart";
+import "UI/BaseWidget.dart";
 
 class Game{
   CanvasElement m_xCanvas;
@@ -51,6 +52,9 @@ class Game{
       return;
     }
     if(sType=="onaboutbtnclicked"){
+      
+      BaseWidget xW=m_xUI.GetWidgetByName("aboutwrap");
+      xW.m_bVisible=!xW.m_bVisible;
       
       return;
     }
